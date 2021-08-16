@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Color Picker</title>
     <link rel="stylesheet" href="dist/style.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
@@ -13,64 +13,29 @@
 
 <body>
 
-    <nav class="top-menu">
-        <img class="top-menu__logo" src="../img/logoExam.jpg" alt="logoITC" />
+    <nav class="menu">
+        <img src="../img/logoExam.jpg" alt="logoITC" />
     </nav>
 
-    <nav class="top-submenu">
-        <!-- Button to add a user -->
-        <button class="top-submenu__button" id="modalButton">Open modal</button>
+    <nav class="submenu">
+        <form class="submenu__form" onsubmit="handleSubmit(event)">
 
-        <!-- Button to redirect to the other page -->
-        <button class="top-submenu__button" id="redirectPage">Move to another page</button>
+            <div class="submenu__input--wrapper">
+                <label for="color">Add your favourite color:</label>
+                <input class="submenu__input--color" type="color" id="color" name="color">
+            </div>
 
-        <!-- Searching input -->
-        <div class="top-submenu__search">
-            <input type="text" placeholder="Search a user" id="search">
-        </div>
+            <input class="submenu__input--button" type="submit" value="Add color">
 
-        <button class="top-submenu__button" id="exportTable">
-            Export table to Excel
-        </button>
+        </form>
+        <button class="submenu__input--button" id="emptyColors">Empty all colors</button>
 
     </nav>
 
+    <div class="main" id="root">
 
-    <!-- Modal to add a user -->
-    <div id="modal" class="modal">
-        <!-- Modal content -->
-        <div class="modal__content">
-            <span id="closeModal" class="modal__content--close">&times;</span>
-            <form class="modal__content__form" onsubmit="handleSubmit(event)">
-                <div class="modal__content__form__wrapper">
-                    <label for="name">Name:</label>
-                    <input type="text" name="name" id="name" maxlength="30" required />
-                </div>
-
-                <div class="modal__content__form__wrapper">
-                    <label for="picture">Picture:</label>
-                    <input type="file" id="picture" name="picture" onchange="readURL(this);">
-                    <img id="previewImage" src="../img/profile.png">
-                </div>
-
-                <input type="submit" value="Add person">
-            </form>
-        </div>
     </div>
 
-    <!-- Using the render function to show the information in the HTML -->
-    <table id="tblData">
-        <tr id="tblData__titles">
-            <th id="tblData__titles--firstname">Name</th>
-            <th id="tblData__titles--picture">Picture</th>
-            <th><i class="fas fa-wrench"></i></th>
-        </tr>
-        <tbody class="table"></tbody>
-    </table>
-
-
-    <script src="../dist/helperModals.js"></script>
-    <script src="../dist/helperDownload.js"></script>
     <script src="dist/script.js"></script>
 </body>
 

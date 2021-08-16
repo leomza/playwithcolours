@@ -1,6 +1,9 @@
 const root: HTMLElement = document.querySelector('#root')
-const peopleList = JSON.parse(localStorage.getItem('peopleList'));
+const squareList = JSON.parse(localStorage.getItem('colorList'));
+const selectedColorId = localStorage.getItem('selectedColor');
 
+//I know that I can just save in the local storage the color, but I prefer to save the Id and filter, so I can use the property Filter also 🧐
+const colorFiltered = squareList.filter(element => (element.id == selectedColorId));
 
 //This function is to redirect to the main page
 try {
@@ -15,24 +18,40 @@ try {
     console.error(error);
 };
 
-//I render all the pets
-function renderPeople(): void {
+//I render the color square selected
+function renderTheSquare(): void {
     try {
-        let html: string = this.peopleList.map(element => {
-            return (
-                `<div id='${element.name}' class="pet__item__wrapper">
-                <div><img class="pet__item__image" src="${element.image}" alt=""></div>
-                <div class="pet__item__information__wrapper">
-                <div>Name: <b>${element.name.toUpperCase()}</b></div>
-                </div>
-                </div>`
-            )
-        }).join(''); 
-        if (!html) throw new Error('An error happens when you want to render the pets!')
-        root.innerHTML = html;
+        for (let i = 0; i < 20; i++) {
+            let html = `<div class="square__item" style="background-color: ${colorFiltered[0].color}">
+            </div>`
+
+            if (!html) throw new Error('An error happens when you want to render the pets!')
+            root.insertAdjacentHTML('beforeend', html);
+        }
     } catch (error) {
         console.error(error);
     }
 };
 
-renderPeople();
+renderTheSquare();
+
+const backgroundSubmenu: HTMLElement = document.querySelector('.submenu');
+function displayRandomColor() {
+    try {
+        backgroundSubmenu.style.backgroundColor = randomColor();
+        document.body.style.backgroundColor = randomColor();
+        if (!backgroundSubmenu) throw new Error('Impossible to change the submenu color because we can´t find it');
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+setInterval('displayRandomColor()', 2000);
+
+function randomColor() {
+    try {
+        return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`;
+    } catch (error) {
+        console.error(error);
+    }
+};

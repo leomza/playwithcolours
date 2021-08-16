@@ -1,44 +1,80 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    background-color: cadetblue;
+}
+
 #root {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.pet {
+.submenu {
+    background-color: peru;
+    padding: 15px;
     display: flex;
+    justify-content: space-around;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
 
+    &__button {
+        position: relative;
+        background-color: #4CAF50;
+        border: none;
+        font-size: 14px;
+        color: #FFFFFF;
+        padding: 20px;
+        width: max-content;
+        text-align: center;
+        transition-duration: 0.4s;
+        text-decoration: none;
+        overflow: hidden;
+        cursor: pointer;
+        margin-top: 10px;
+
+        &:hover {
+            background-color: whitesmoke;
+            color: black;
+        }
+
+        &:after {
+            content: "";
+            background: #f1f1f1;
+            display: block;
+            position: absolute;
+            padding-top: 300%;
+            padding-left: 350%;
+            margin-left: -20px !important;
+            margin-top: -120%;
+            opacity: 0;
+            transition: all 0.8s
+        }
+
+        &:active:after {
+            padding: 0;
+            margin: 0;
+            opacity: 1;
+            transition: 0s
+        }
+    }
+}
+
+.square {
     &__item {
-        &__wrapper {
-            display: flex;
-            background-color: white;
-            width: 300px;
-            margin: 10px;
-            height: 370px;
-            flex-direction: column;
-            align-items: center;
-            border-radius: 50px;
-        }
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        margin: 5px;
+    }
+}
 
-        &__image {
-            width: 250px;
-            height: 250px;
-            padding-top: 20px;
-            border-radius: 50px;
-        }
-
-        &__information {
-
-            &__wrapper {
-                display: flex;
-                flex-direction: row;
-                width: 100%;
-                justify-content: space-evenly;
-                padding: 5px
-            }
-
-            &__description {
-                text-align: center;
-            }
+@media screen and (max-width: 600px) {
+    .square {
+        &__item {
+            width: 150px;
+            height: 150px;
         }
     }
 }

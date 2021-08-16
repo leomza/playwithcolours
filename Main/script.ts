@@ -1,172 +1,93 @@
 //Bring information from the localStorage in case I have it
-let peopleFromStorage: Array<Person> = JSON.parse(localStorage.getItem('peopleList'));
+let squareFromStorage: Array<Square> = JSON.parse(localStorage.getItem('colorList'));
 
-class Person {
+class Square {
     id: string;
-    name: string;
-    image: string;
+    color: string;
 
-    constructor(name: string, image: string) {
+    constructor(color: string) {
         this.id = "id" + Math.random().toString(16).slice(2);
-        this.name = name;
-        this.image = image;
+        this.color = color;
     }
 };
 
-//Initialice an array of pepople empty (I will push all the new person here)
-let people: Array<Person> = [];
+//Initialice an array of squares empty (I will push all the new squares here)
+let listColors: Array<Square> = [];
 
 //The first thing that I do is that if the localStorage contain information I will work on that information
-if (peopleFromStorage != null) {
-    people = peopleFromStorage;
+if (squareFromStorage != null) {
+    listColors = squareFromStorage;
 };
 
 //Function to handle the submit
 const handleSubmit = (ev: any): void => {
     ev.preventDefault();
     try {
-        const name: string = ev.target.elements.name.value;
-        if (!name) throw new Error('Imposible to access in the form to the name of the person')
-
-        const image: string = document.querySelector('#previewImage').getAttribute("src");
-        if (!image) throw new Error('Imposible to access in the form to the picture of the person')
-
-        const person = new Person(name, image);
-        if (!person) throw new Error('The person to create doesn´t exist!')
-        addPerson(person);
-        alert('Person uploaded successfully');
-        document.querySelector('#previewImage').setAttribute("src", "../img/profile.png")
+        const color: string = ev.target.elements.color.value;
+        if (!color) throw new Error('Imposible to access in the form to the color')
+        const square = new Square(color);
+        if (!square) throw new Error('The color to create doesn´t exist!')
+        addSquare(square);
+        localStorage.setItem('colorList', JSON.stringify(listColors));
+        alert('Color uploaded successfully');
         ev.target.reset();
     } catch (error) {
         console.error(error);
     };
 };
 
-//Function to show the previous image in the form:
-function readURL(input: any): void {
-    try {
-        if (input.files && input.files[0]) {
-            let reader: FileReader = new FileReader();
-
-            reader.onload = (e) => {
-                document.querySelector('#previewImage').setAttribute("src", `${e.target.result}`);
-                return e.target.result;
-            }
-            reader.readAsDataURL(input.files[0]);
-        };
-    } catch (error) {
-        console.error(error);
-    }
-};
-
 //Use this function to add all the people created in the new array "People"
-function addPerson(person: Person): void {
+function addSquare(color: Square): void {
     try {
-        people.push(person);
-        renderPeople(people);
-        document.querySelector('#previewImage').setAttribute('src', "../Img_whatsapp/profile.png");
-        modal.style.display = "none";
-        if (!modal) throw new Error('Impossible to close the Modal because it doesn´t exist');
+        listColors.push(color);
+        renderSquare(listColors);
     } catch (error) {
         console.error(error);
     };
 };
 
 //This function is to render the people in the DOM
-function renderPeople(people: Array<Person>): void {
+function renderSquare(listColors: Array<Square>): void {
     try {
-        const table: HTMLElement = document.querySelector(".table");
-        if (!table) throw new Error('There is a problem finding the table from HTML');
-        localStorage.setItem('peopleList', JSON.stringify(people));
-        //Doing a loop to show the contacts
-        let html: any = people.map(element => {
-            if (!element.image) {
-                element.image = "../Img_whatsapp/profile.png";
-            };
+        const root: HTMLElement = document.querySelector("#root");
+        if (!root) throw new Error('There is a problem finding the root to render the color');
+        //Doing a loop to show the colors
+        let html: any = listColors.map(element => {
             return (
-                `<tr>
-                <td>${element.name}</td>
-                <td><img src="${element.image}" alt=""></td> 
-                <td>
-                <i class="fas fa-trash table__remove" onclick='remove("${element.id}", "${element.name}")' title="Remove"></i>
-                </td>
-                </tr>`
+                `<div class="square__wrapper">
+                <div class="square__item" style="background-color: ${element.color}" onclick='changePage("${element.id}")'></div>
+                <i class="fas fa-trash table__remove square__remove" style="color: ${element.color}" onclick='removeSquare("${element.id}", "${element.color}")' title="Remove item"></i>
+                </div>`
             )
         }).join('');
-        table.innerHTML = html;
+        root.innerHTML = html;
     } catch (error) {
         console.error(error);
     };
 };
 
-//To delete a Person
-function remove(personId: string, name: string) {
+//To delete a Square
+function removeSquare(squareId: string, color: string) {
     try {
-        const option = confirm(`Are you sure do you want to delete ${name}?`);
+        const option = confirm(`Are you sure do you want to delete ${color}?`);
         if (option) {
-            const personIndex = people.findIndex((element: Person) => element.id === personId);
-            people.splice(personIndex, 1);
-            if (!renderPeople) throw new Error('There is a problem to render the people');
-            renderPeople(people);
+            const squareIndex = listColors.findIndex((element: Square) => element.id === squareId);
+            listColors.splice(squareIndex, 1);
+            if (!renderSquare) throw new Error('There is a problem to render the squares');
+            localStorage.setItem('colorList', JSON.stringify(listColors));
+            renderSquare(listColors);
         }
     } catch (error) {
         console.error(error);
     }
 };
 
-//Function to handle the number of members in a group submit
-const handleNumber = (ev: any): void => {
-    ev.preventDefault();
+//This function is to redirect to the next page and show the page with the same color
+function changePage(squareId) {
     try {
-        const numberMember: string = ev.target.elements.numberMember.value;
-        alert('Number uploaded successfully');
-        localStorage.setItem('numberMember', numberMember);
-        ev.target.reset();
-    } catch (error) {
-        console.error(error);
-    };
-};
-
-//This function is to redirect to the next page and show the groups
-try {
-    const changePage = document.querySelector('#redirectPage');
-    if (!changePage) throw new Error('Can`t access to the change page button');
-
-    changePage.addEventListener('click', () => {
+        localStorage.setItem('selectedColor', squareId);
         window.location.href = '../Second/second.html'
         if (!window.location.href) throw new Error('The page where you want to redirect it doesn´t exist!')
-    });
-} catch (error) {
-    console.error(error);
-};
-
-//Function to do a filter in the search input
-try {
-    const searchName: HTMLInputElement = document.querySelector("#search");
-    if (!searchName) throw new Error('Can`t access to the search in filters');
-    searchName.addEventListener('keyup', () => {
-        const regEx: string = searchName.value;
-        const searching: RegExp = new RegExp(regEx, 'i');
-
-        this.filterUsers = people.filter(element => searching.test(element.name))
-        checkFilters(this.filterUsers)
-    });
-} catch (error) {
-    console.error(error);
-;}
-
-//Function to render or to add a not found title, depending the results of the filters
-function checkFilters(filterUsers: Array<Person>): void {
-    try {
-        if (filterUsers.length === 0) {
-            const table: HTMLElement = document.querySelector(".table");
-            if (!table) throw new Error('There is a problem finding table from HTML');
-
-            let html: string = `<h1 class="table__noFound"> Element not found 😯 </h1>`;
-            table.innerHTML = html;
-        } else {
-            renderPeople(this.filterUsers);
-        }
     } catch (error) {
         console.error(error);
     }
@@ -175,8 +96,8 @@ function checkFilters(filterUsers: Array<Person>): void {
 //Function when I come back from the random groups to the main page, render the saved information from the localstorage
 function checkStorage(): void {
     try {
-        if (peopleFromStorage) {
-            renderPeople(peopleFromStorage);
+        if (squareFromStorage) {
+            renderSquare(squareFromStorage);
         }
     } catch (error) {
         console.error(error);
@@ -184,3 +105,46 @@ function checkStorage(): void {
 };
 
 checkStorage();
+
+
+//Function to display random colors background
+const backgroundSubmenu: HTMLElement = document.querySelector('.submenu');
+function displayRandomColor() {
+    try {
+        backgroundSubmenu.style.backgroundColor = randomColor();
+        if (!backgroundSubmenu) throw new Error('Impossible to change the submenu color because we can´t find it');
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+setInterval('displayRandomColor()', 2000);
+
+function randomColor() {
+    try {
+        return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+
+//This function is to empty the array and starts from cero
+try {
+    const emptyColors = document.querySelector('#emptyColors');
+    emptyColors.addEventListener('click', emptySquares);
+} catch (error) {
+    console.error(error);
+};
+
+function emptySquares() {
+    try {
+        const option = confirm(`Are you sure do you want to delete all the colors?`);
+        if (option) {
+            localStorage.clear();
+            location.reload();
+        }
+    } catch (error) {
+        console.error(error);
+    };
+};

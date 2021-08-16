@@ -5,22 +5,37 @@ html {
   background-color: cadetblue;
 }
 
-.top-menu {
+.menu {
   background-color: white;
   padding: 25px;
   display: flex;
   justify-content: center;
 }
 
-.top-submenu {
-  background-color: black;
+.submenu {
+  background-color: peru;
   padding: 15px;
   display: flex;
   justify-content: space-around;
   margin-bottom: 25px;
   flex-wrap: wrap;
 }
-.top-submenu__button {
+.submenu__form {
+  text-align: center;
+}
+.submenu__input--wrapper {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.submenu__input--color {
+  width: 100px;
+  height: 100px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.submenu__input--button {
   position: relative;
   background-color: #4CAF50;
   border: none;
@@ -33,12 +48,13 @@ html {
   text-decoration: none;
   overflow: hidden;
   cursor: pointer;
+  margin-top: 10px;
 }
-.top-submenu__button:hover {
+.submenu__input--button:hover {
   background-color: whitesmoke;
   color: black;
 }
-.top-submenu__button:after {
+.submenu__input--button:after {
   content: "";
   background: #f1f1f1;
   display: block;
@@ -50,136 +66,37 @@ html {
   opacity: 0;
   transition: all 0.8s;
 }
-.top-submenu__button:active:after {
+.submenu__input--button:active:after {
   padding: 0;
   margin: 0;
   opacity: 1;
   transition: 0s;
 }
-.top-submenu__search input {
-  height: 90%;
-  text-align: center;
-}
 
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  padding-top: 100px;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-  /* Modal Content */
-}
-.modal__content {
-  background-color: peru;
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  /* The Close Button */
-  /* Form */
-}
-.modal__content--close {
-  color: white;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-.modal__content__form {
-  padding: 10px;
-  width: 70%;
+.main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #deb887;
-  border-radius: 50px;
-}
-.modal__content__form__wrapper {
-  text-align: left;
-  padding-top: 15px;
-  width: 100%;
-}
-.modal__content__form__wrapper label {
-  display: inline-block;
-  width: 150px;
-}
-.modal__content__form__wrapper img {
-  width: 60px;
 }
 
-table {
-  width: 60%;
-  margin: auto;
-  color: white;
+.square__wrapper {
+  display: flex;
+  align-items: center;
+  margin: 10px;
 }
-table th,
-table td {
-  padding: 12px;
-  text-align: center;
-}
-table th img,
-table td img {
-  width: 100px;
-  height: 100px;
+.square__item {
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  margin: auto;
-}
-table tr:nth-child(odd) {
-  background-color: white;
-  color: black;
-}
-table tr:nth-child(even) {
-  background-color: darkgoldenrod;
-}
-table tr:hover {
-  background-color: green;
-}
-table th {
-  background-color: darkgrey;
-  color: white;
-}
-
-.table__remove {
   cursor: pointer;
-  margin-left: 20px;
 }
-.table__remove:hover {
-  color: #4CAF50;
-}
-.table__noFound {
-  background-color: black;
+.square__remove {
+  margin-left: 15px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {
-  .top-menu img {
+  .menu img {
     width: 225px;
-  }
-
-  .top-submenu {
-    padding: 10px;
-    display: block;
-    text-align: center;
-    margin-bottom: 15px;
-  }
-  .top-submenu__button {
-    font-size: 12px;
-    padding: 10px;
-    width: 200px;
-    margin-bottom: 10px;
-  }
-  .top-submenu__search {
-    margin-bottom: 10px;
-  }
-
-  .modal__content__form__wrapper {
-    text-align: center;
   }
 }
