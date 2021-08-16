@@ -11,7 +11,7 @@ try {
     if (!changePage) throw new Error('Can`t access to the change page button');
 
     changePage.addEventListener('click', () => {
-        window.location.href = '../Main/index.html'
+        window.location.href = '../index.html'
         if (!window.location.href) throw new Error('The page where you want to redirect it doesn´t exist!')
     });
 } catch (error) {
